@@ -3,6 +3,7 @@ import XCTest
 public func diffedAssertEqual<T>(
     _ expression1: @autoclosure () throws -> T,
     _ expression2: @autoclosure () throws -> T,
+    _ message: @autoclosure () -> String? = nil,
     file: StaticString = #file,
     line: UInt = #line
 ) where T : Equatable {
@@ -28,9 +29,21 @@ public func diffedAssertEqual<T>(
     }
 
     if value1 != value2,
-        let message = diff(value1, value2, file: file, line: line)
+        let diffMessage = diff(value1, value2, file: file, line: line)
     {
-        fail(message)
+        var finalMessage = ""
+        if let initialMessage = message() {
+            finalMessage += initialMessage
+        }
+        finalMessage += "\n"
+        // omit diff header (first two lines)
+        let diffParts = diffMessage.split(
+            separator: "\n",
+            maxSplits: 2,
+            omittingEmptySubsequences: false
+        )
+        finalMessage += diffParts[2]
+        fail(finalMessage)
     }
 }
 
