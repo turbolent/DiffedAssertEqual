@@ -84,7 +84,11 @@ internal func diff<T>(_ value1: T, _ value2: T, file: StaticString, line: UInt) 
 
 internal func dumpToFile<T>(_ value: T) throws -> TemporaryFile {
     var file = try TemporaryFile()
-    dump(value, to: &file)
+    if let string = value as? String {
+        file.write(string)
+    } else {
+        dump(value, to: &file)
+    }
     file.close()
     return file
 }
