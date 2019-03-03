@@ -161,3 +161,41 @@ extension TemporaryFile : TextOutputStream {
     }
 }
 
+
+@available(OSX 10.13, *)
+public func diffedAssertJSONEqual<T>(
+    _ expected: String,
+    _ actual: T,
+    file: StaticString = #file,
+    line: UInt = #line
+)
+    where T: Encodable
+{
+    do {
+        guard let expectedData = expected.data(using: .utf8) else {
+            XCTFail("failed to UTF8-decode expected string")
+            return
+        }
+        let actualData = try JSONEncoder().encode(actual)
+        diffedAssertEqual(
+            try encodeToSortedPrettyJSON(data: actualData),
+            try encodeToSortedPrettyJSON(data: expectedData)
+        )
+    } catch let error {
+        XCTFail(
+            error.localizedDescription,
+            file: file,
+            line: line
+        )
+    }
+}
+
+@available(OSX 10.13, *)
+private func encodeToSortedPrettyJSON(data: Data) throws -> String? {
+    let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+    let sortedPrettyJSONData = try JSONSerialization.data(
+        withJSONObject: jsonObject,
+        options: [.sortedKeys, .prettyPrinted]
+    )
+    return String(data: sortedPrettyJSONData, encoding: .utf8)
+}

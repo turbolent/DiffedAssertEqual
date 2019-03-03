@@ -1,9 +1,16 @@
 import XCTest
 
+extension DiffedAssertEqualTests {
+    static let __allTests = [
+        ("testDiffedAssertEqual", testDiffedAssertEqual),
+        ("testDiffedAssertJSONEqual", testDiffedAssertJSONEqual),
+    ]
+}
+
 #if !os(macOS)
-public func allTests() -> [XCTestCaseEntry] {
+public func __allTests() -> [XCTestCaseEntry] {
     return [
-        testCase(DiffedAssertEqualTests.allTests),
+        testCase(DiffedAssertEqualTests.__allTests),
     ]
 }
 #endif

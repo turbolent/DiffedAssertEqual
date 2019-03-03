@@ -3,5 +3,6 @@ import XCTest
 import DiffedAssertEqualTests
 
 var tests = [XCTestCaseEntry]()
-tests += DiffedAssertEqualTests.allTests()
+tests += DiffedAssertEqualTests.__allTests()
+
 XCTMain(tests)
