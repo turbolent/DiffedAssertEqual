@@ -178,8 +178,8 @@ public func diffedAssertJSONEqual<T>(
         }
         let actualData = try JSONEncoder().encode(actual)
         diffedAssertEqual(
-            try encodeToSortedPrettyJSON(data: actualData),
             try encodeToSortedPrettyJSON(data: expectedData),
+            try encodeToSortedPrettyJSON(data: actualData),
             file: file,
             line: line
         )
