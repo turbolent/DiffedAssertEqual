@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -7,14 +7,17 @@ let package = Package(
     products: [
         .library(
             name: "DiffedAssertEqual",
-            targets: ["DiffedAssertEqual"]),
+            targets: ["DiffedAssertEqual"]
+        ),
     ],
     targets: [
         .target(
             name: "DiffedAssertEqual",
-            dependencies: []),
+            dependencies: []
+        ),
         .testTarget(
             name: "DiffedAssertEqualTests",
-            dependencies: ["DiffedAssertEqual"]),
+            dependencies: ["DiffedAssertEqual"]
+        ),
     ]
 )
